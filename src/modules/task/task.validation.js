@@ -7,11 +7,11 @@ const addTaskVal = Joi.object({
   textTask: Joi.string().min(2).max(200).trim().required(),
   listTask: Joi.string().min(2).max(200).trim(),
   category: Joi.string().hex().length(24).required(),
-  visible: Joi.string().valid('private', 'public').default('public'),
+  visible: Joi.string().valid("private", "public").default("public"),
 });
 
 const paramsIdVal = Joi.object({
-  id: Joi.string().hex().length(24).required()
+  id: Joi.string().hex().length(24).required(),
 });
 
 const updateTaskVal = Joi.object({
@@ -19,7 +19,7 @@ const updateTaskVal = Joi.object({
   textTask: Joi.string().min(2).max(200).trim(),
   listTask: Joi.string().min(2).max(200).trim(),
   category: Joi.string().hex().length(24),
-  visible: Joi.string().valid('private', 'public').default('public'),
+  visible: Joi.string().valid("private", "public").default("public"),
   id: Joi.string().hex().length(24).required(),
 });
 

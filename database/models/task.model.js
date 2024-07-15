@@ -16,10 +16,12 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
     textTask: String,
-    listTask: [{
-      type: mongoose.Types.ObjectId,
-      ref: 'task'
-    }],
+    listTask: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "task",
+      },
+    ],
     category: {
       type: mongoose.Types.ObjectId,
       ref: "category",
@@ -30,9 +32,9 @@ const taskSchema = new mongoose.Schema(
     },
     visible: {
       type: String,
-      enum: ['private', 'public'],
-      default: 'public'
-    }
+      enum: ["private", "public"],
+      default: "public",
+    },
   },
   { timestamps: true }
 );

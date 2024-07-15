@@ -38,7 +38,12 @@ const getAll = (model) => {
 const findOne = (model) => {
   return catchError(async (req, res, next) => {
     try {
-      const document = await model.findById(req.params.id)
+      const document = await model.findById(req.params.id);
+      // To check if anyone is trying to get a private task by typing a query into the URL like => ?visible=private
+      if (document.visible == "private")
+        return next(
+          new AppError("You don't have permission to perform this action.", 403)
+        );
       !document && next(new AppError("Document not found.", 404));
       document && res.status(200).json({ message: "success", document });
     } catch (e) {
@@ -52,12 +57,16 @@ const updateOne = (model) => {
     try {
       let document;
       if (req.user) {
-        document = await model.findOneAndUpdate({
-          _id: req.params.id,
-          $or: [{ createdBy: req.user._id }, { user: req.user._id }]
-        }, req.body, { new: true });
+        document = await model.findOneAndUpdate(
+          {
+            _id: req.params.id,
+            $or: [{ createdBy: req.user._id }, { user: req.user._id }],
+          },
+          req.body,
+          { new: true }
+        );
       } else {
-        document = await model.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        document = await model.findByIdAndUpdate(req.params.id, req.body, { new: true, });
       }
       !document && next(new AppError("Document not found.", 404));
       document && res.status(200).json({ message: "success", document });
@@ -75,10 +84,7 @@ const deleteOne = (model) => {
         document = await model.findOneAndDelete(
           {
             _id: req.params.id,
-            $or: [
-              { createdBy: req.user._id },
-              { user: req.user._id }
-            ]
+            $or: [{ createdBy: req.user._id }, { user: req.user._id }],
           },
           req.body,
           { new: true }

@@ -38,8 +38,12 @@ const changePassword = catchError(async (req, res, next) => {
     if (!user) return next(new AppError("No User Found!", 404));
     if (!bcrypt.compareSync(password, user.password)) return next(new AppError("Wrong Password!", 401));
     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_KEY);
-    await userModel.findByIdAndUpdate(req.user._id, { password: newPassword, passwordUpdatedAt: Date.now() },
-      { new: true });
+    await userModel.findByIdAndUpdate(
+      req.user._id,
+      { password: newPassword, passwordUpdatedAt: Date.now() },
+      { new: true }
+    );
+
     res.status(200).json({ message: "success", token });
   } catch (e) {
     res.status(500).json({ error: `Error in server: ${e}` });

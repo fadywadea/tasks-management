@@ -5,4 +5,4 @@ export class AppError extends Error {
     super(message);
     this.statusCode = statusCode;
   }
-};
+}

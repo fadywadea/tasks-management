@@ -11,7 +11,7 @@ export class ApiFeatures {
     let pageNumber = Math.abs(this.searchQuery.page) * 1 || 1;
     let pageLimit = 8;
     let skip = (pageNumber - 1) * pageLimit;
-    this.pageNumber = pageNumber
+    this.pageNumber = pageNumber;
     this.mongooseQuery.skip(skip).limit(pageLimit);
     return this;
   }
@@ -22,7 +22,7 @@ export class ApiFeatures {
     filter = JSON.stringify(filter);
     filter = filter.replace(/(gt|gte|lt|lte)/g, (match) => "$" + match);
     filter = JSON.parse(filter);
-    this.mongooseQuery.find(filter)
+    this.mongooseQuery.find(filter);
     return this;
   }
   sort() {
@@ -44,10 +44,10 @@ export class ApiFeatures {
       const { keyword } = this.searchQuery;
       this.mongooseQuery.find({
         $or: [
-          { name: { $regex: keyword }, },
-          { title: { $regex: keyword }, },
-          { description: { $regex: keyword } }
-        ]
+          { name: { $regex: keyword } },
+          { title: { $regex: keyword } },
+          { description: { $regex: keyword } },
+        ],
       });
     }
     return this;

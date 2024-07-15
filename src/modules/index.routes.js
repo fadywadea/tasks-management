@@ -7,7 +7,6 @@ import taskRouter from "./task/task.routes.js";
 import userRouter from "./user/user.routes.js";
 
 export const bootstrap = (app) => {
-
   app.use("/api/v1/user", userRouter);
   app.use("/api/v1/categories", categoryRouter);
   app.use("/api/v1/task", taskRouter);

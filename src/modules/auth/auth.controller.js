@@ -21,7 +21,6 @@ const protectedRoutes = catchError(async (req, res, next) => {
   }
 });
 
-
 // Authorization
 const authorization = (...roles) => {
   return catchError(async (req, res, next) => {
