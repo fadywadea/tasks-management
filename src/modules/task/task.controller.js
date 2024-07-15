@@ -11,9 +11,10 @@ const addTask = addOne(taskModel);
 
 const getAllTasks = catchError(async (req, res, next) => {
   try {
-    const tasks = taskModel.find({ visible: "public" }).populate('category').populate('listTask');
+    const tasks = taskModel.find({ visible: "public" }).populate('category', '-_id name').populate('listTask', '-_id name');
     const apiFeatures = new ApiFeatures(tasks, req.query).pagination().fields().sort().search().filter();
     const document = await apiFeatures.mongooseQuery;
+    // To check if anyone is trying to get a private task by typing a query into the URL like => ?visible=private
     if (document[0].visible == 'private') return next(new AppError("You don't have permission to perform this action.", 403));
     res.status(200).json({ message: "success", page: apiFeatures.pageNumber, document });
   } catch (e) {
@@ -24,7 +25,7 @@ const getAllTasks = catchError(async (req, res, next) => {
 const privateTasks = catchError(async (req, res, next) => {
   try {
     const tasks = taskModel.find({ $and: [{ visible: 'private' }, { createdBy: req.user._id }] })
-      .populate('category').populate('listTask');
+      .populate('category').populate('category', '-_id name').populate('listTask', '-_id name');
     const apiFeatures = new ApiFeatures(tasks, req.query).pagination().fields().sort().search().filter();
     const document = await apiFeatures.mongooseQuery;
     res.status(200).json({ message: "success", page: apiFeatures.pageNumber, document });
