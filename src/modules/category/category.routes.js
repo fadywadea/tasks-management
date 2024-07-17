@@ -4,20 +4,20 @@ import express from "express";
 import { addCategory, deleteCategory, getAllCategories, getSingleCategory, updateCategory, } from "./category.controller.js";
 import { validation } from "../../middleware/validation.js";
 import { addCategoryVal, paramsIdVal, updateCategoryVal, } from "./category.validation.js";
-import { createSlugify } from "../../middleware/slugify.js";
 import { authorization, protectedRoutes } from "../auth/auth.controller.js";
+import { checkTaskNotFound } from "../../middleware/checkTaskNotFound.js";
 
 const categoryRouter = express.Router();
 
 categoryRouter
   .route("/")
-  .post(protectedRoutes, authorization("user"), validation(addCategoryVal), createSlugify, addCategory)
+  .post(protectedRoutes, authorization("user"), validation(addCategoryVal), checkTaskNotFound, addCategory)
   .get(getAllCategories);
 
 categoryRouter
   .route("/:id")
   .get(validation(paramsIdVal), getSingleCategory)
-  .patch(protectedRoutes, validation(updateCategoryVal), createSlugify, updateCategory)
+  .patch(protectedRoutes, validation(updateCategoryVal), updateCategory)
   .delete(protectedRoutes, validation(paramsIdVal), deleteCategory);
 
 export default categoryRouter;
