@@ -16,12 +16,10 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
     textTask: String,
-    listTask: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "task",
-      },
-    ],
+    listTask: [{
+      type: mongoose.Types.ObjectId,
+      ref: "task",
+    }],
     category: {
       type: mongoose.Types.ObjectId,
       ref: "category",
