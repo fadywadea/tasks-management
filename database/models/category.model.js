@@ -16,6 +16,10 @@ const categorySchema = new mongoose.Schema(
       lowercase: true,
       required: true,
     },
+    tasks: [{
+      type: mongoose.Types.ObjectId,
+      ref: "task",
+    }],
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "user",
