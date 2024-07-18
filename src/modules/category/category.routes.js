@@ -17,7 +17,7 @@ categoryRouter
 categoryRouter
   .route("/:id")
   .get(validation(paramsIdVal), getSingleCategory)
-  .patch(protectedRoutes, validation(updateCategoryVal), updateCategory)
+  .patch(protectedRoutes, validation(updateCategoryVal), checkTaskNotFound, updateCategory)
   .delete(protectedRoutes, validation(paramsIdVal), deleteCategory);
 
 export default categoryRouter;

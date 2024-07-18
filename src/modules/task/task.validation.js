@@ -5,7 +5,7 @@ import Joi from "joi";
 const addTaskVal = Joi.object({
   name: Joi.string().min(2).max(50).required().trim(),
   textTask: Joi.string().min(2).max(200).trim().required(),
-  listTask: Joi.string().min(2).max(200).trim(),
+  listTask: Joi.array().items(Joi.string().hex().length(24)).required(),
   category: Joi.string().hex().length(24).required(),
   visible: Joi.string().valid("private", "public").default("public"),
 });
